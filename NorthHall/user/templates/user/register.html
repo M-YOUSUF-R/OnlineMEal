@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - North Hall Meal System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'user/styles/reg.css'%}">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    
+    <div class="container">
+        <div class="header">
+            <a href="{% url 'home' %}" class="back-link">
+                <i class="fas fa-arrow-left"></i> Back to Home
+            </a>
+            <div class="college-name">Fardpur Engineering College</div>
+            <div class="hall-name">North Hall</div>
+            <div class="form-title">Create Your Account</div>
+        </div>
+        
+        <div class="form-container">
+            <div class="form-header">
+                <div class="form-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <h1>Registration Form</h1>
+            </div>
+            
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Border Number *</label>
+                        <input type="text" class="input-field" id="border_no" placeholder="Enter your border number" required>
+                        <div class="error-message" id="borderError">Border number is required</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="input-label">Registration Number *</label>
+                        <input type="text" class="input-field" id="reg_no" placeholder="Enter your registration number" required>
+                        <div class="error-message" id="regError">Registration number is required</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="input-label">Full Name *</label>
+                    <input type="text" class="input-field" id="full_name" placeholder="Enter your full name" required>
+                    <div class="error-message" id="nameError">Full name is required</div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Room Number *</label>
+                        <input type="text" class="input-field" id="room_no" placeholder="e.g., 101, A-12" required>
+                        <div class="error-message" id="roomError">Room number is required</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="input-label">Phone Number</label>
+                        <input type="tel" class="input-field" id="phone" placeholder="Enter your phone number">
+                        <span class="input-hint">Optional</span>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="input-label">Password *</label>
+                        <input type="password" class="input-field" id="password" placeholder="Enter password (4-8 characters)" required>
+                        <span class="input-hint password-hint">Must be 4-8 characters</span>
+                        <div class="error-message" id="passwordError">Password must be 4-8 characters</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="input-label">Confirm Password *</label>
+                        <input type="password" class="input-field" id="confirm_password" placeholder="Confirm your password" required>
+                        <div class="error-message" id="confirmError">Passwords do not match</div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="input-label">
+                        <input type="checkbox" id="terms" required>
+                        I agree to the <a href="#" style="color: #1a2980; text-decoration: none;">Terms & Conditions</a> *
+                    </label>
+                    <div class="error-message" id="termsError">You must agree to the terms</div>
+                </div>
+                
+                <div class="form-footer">
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                    
+                    <div class="login-link">
+                        Already have an account? <a href="{% url 'login_page' %}">Login here</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+        <footer>
+            <p>&copy; 2024 North Hall, Fardpur Engineering College. All rights reserved.</p>
+        </footer>
+    </div>
+    
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle"></i> Account created successfully!
+    </div>
+
+    <script src="{% static 'user/js/login.js' %}"></script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Manager - Toggle Your Meals</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- custom css links -->
+    <link rel="stylesheet" href="{% static 'meal/styles/meal.css' %}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h1>Meal Manager</h1>
+            </div>
+            <p class="subtitle">Manage your meal for today. Turn your meal ON or OFF as needed.</p>
+            <div class="header">
+                <a href="{% url 'home' %}" class="back-link">
+                    <i class="fas fa-arrow-left"></i> Back to Home
+                </a>
+            </div>
+        </header>
+        <div class="main-content">
+            <div class="meals-section">
+                <h2 class="section-title">Today's Meal</h2>
+                
+                <!-- Removed date navigation buttons, showing only today's date -->
+                <div class="date-navigation" style="justify-content: center;">
+                    <div class="current-date" id="current-date">Monday, June 17, 2024</div>
+                </div>
+                
+                <!-- meal container -->
+                <div class="meals-container" id="meals-container">
+                    <!-- Meal cards will be generated here -->
+                </div>
+                
+                <button class="save-btn" id="save-btn">
+                    <i class="fas fa-save"></i> Save Meal Preference
+                </button>
+            </div>
+        </div>
+        
+        <div class="notification" id="notification">
+            <i class="fas fa-check-circle"></i> Meal preference saved successfully!
+        </div>
+        
+        <footer>
+            <p>Meal Manager &copy; 2024 | Toggle your meal participation anytime</p>
+        </footer>
+    </div>
+
+  <script defer src="{% static 'meal/js/meal.js' %}"></script>
+</body>
+</html>

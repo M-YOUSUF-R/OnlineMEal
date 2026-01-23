@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>North Hall Meal System - Fardpur Engineering College</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'home/styles/home.css' %}">
+</head>
+<body>
+    <div class="background-overlay"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="college-name">Fardpur Engineering College</div>
+            <div class="hall-name">North Hall</div>
+            <div class="system-title">Meal Management System</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Meal Manager</h1>
+                    <p>Smart Dining Solution for Residents</p>
+                </div>
+            </div>
+            
+            <p class="tagline">
+                Welcome to the official <strong>North Hall Meal Management System</strong>. 
+                Easily manage your daily meal preferences, track your dining history, 
+                and enjoy a seamless dining experience at our hall.
+            </p>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-toggle-on"></i>
+                    </div>
+                    <h3 class="feature-title">Easy Meal Toggle</h3>
+                    <p class="feature-desc">
+                        Turn your meals ON or OFF with a simple switch. Manage your daily dining preferences effortlessly.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="feature-title">Meal History</h3>
+                    <p class="feature-desc">
+                        View your past meal selections. Track your dining patterns and preferences over time.
+                    </p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="feature-title">Secure Access</h3>
+                    <p class="feature-desc">
+                        Your account is protected with secure authentication. Only you can manage your meal preferences.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="button-section">
+                <a href="{% url 'login_page' %}" class="btn btn-login">
+                    <i class="fas fa-sign-in-alt"></i> Login to Account
+                </a>
+                <a href="{% url 'signup_page' %}" class="btn btn-signup">
+                    <i class="fas fa-user-plus"></i> Create New Account
+                </a>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="footer-links">
+                <a href="#">About System</a>
+                <a href="#">Contact Hall Office</a>
+                <a href="#">Privacy Policy</a>
+            </div>
+            <p>&copy; 2024 North Hall, Fardpur Engineering College. All rights reserved.</p>
+            <p>Meal Management System v2.0</p>
+        </footer>
+    </div>
+    <script defer src="{%static 'home/js/home.js' %}"></script>
+</body>
+</html>
