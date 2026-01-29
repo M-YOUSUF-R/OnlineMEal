@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     // Disable submit button and show loading
                     submitBtn.disabled = true;
                     submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
-                    
+                    return
                     // Prepare form data
                     const formData = {
                         border_no: borderNoInput.value.trim(),

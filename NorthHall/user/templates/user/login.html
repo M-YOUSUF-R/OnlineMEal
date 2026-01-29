@@ -29,11 +29,14 @@
                 <h1>Login to Your Account</h1>
             </div>
             
-            <form id="loginForm">
+            <form id="loginForm" method="post" action="{% url 'login_page' %}">
+                {% csrf_token %}
                 <div class="form-group">
                     <label class="input-label">Border Number *</label>
                     <div class="input-with-icon">
-                        <input type="text" class="input-field" id="border_no" placeholder="Enter your border number" required>
+                        <input type="text" class="input-field" id="border_no" placeholder="Enter your border number" 
+                        name="border_no"
+                        required>
                         <div class="input-icon">
                             <i class="fas fa-id-card"></i>
                         </div>
@@ -44,7 +47,8 @@
                 <div class="form-group">
                     <label class="input-label">Registration Number *</label>
                     <div class="input-with-icon">
-                        <input type="text" class="input-field" id="reg_no" placeholder="Enter your registration number" required>
+                        <input type="text" class="input-field" id="reg_no" placeholder="Enter your registration number"
+                        name="reg_no" required>
                         <div class="input-icon">
                             <i class="fas fa-user-graduate"></i>
                         </div>
@@ -55,7 +59,7 @@
                 <div class="form-group">
                     <label class="input-label">Password *</label>
                     <div class="input-with-icon">
-                        <input type="password" class="input-field" id="password" placeholder="Enter your password" required>
+                        <input type="password" class="input-field" id="password" placeholder="Enter your password" name="password" required>
                         <div class="input-icon">
                             <i class="fas fa-lock"></i>
                         </div>
@@ -92,6 +96,6 @@
         <i class="fas fa-check-circle"></i> Login successful!
     </div>
 
-    <script defer src="{% static 'user/js/login.js' %}"></script>
+    <!-- <script defer src="{% static 'user/js/login.js' %}"></script> -->
 </body>
 </html>

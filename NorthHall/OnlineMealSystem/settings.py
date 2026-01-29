@@ -37,11 +37,32 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',
     'home.apps.HomeConfig',
     'meal.apps.MealConfig',
     'user.apps.UserConfig',
 
 ]
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    ),
+    'DEFAULT_SCHEMA_CLASS': 
+        'rest_framework.schemas.coreapi.AutoSchema',
+        'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated'
+    ]
+}
+REST_SESSION_LOGIN = False
+REST_USE_JWT = True
+JWT_AUTH_COOKIE = 'jwt-access-token'           # you can set these
+JWT_AUTH_REFRESH_COOKIE = 'jwt-refresh-token'  # to anything 
+JWT_AUTH_SECURE = True
+CORS_ALLOW_CREDENTIALS = True
+# CORS_ALLOWED_ORIGINS = ['https://example.com']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'user.middleware.MoveJwtRefrestToBody'
 ]
 
 ROOT_URLCONF = 'OnlineMealSystem.urls'
@@ -79,7 +101,8 @@ WSGI_APPLICATION = 'OnlineMealSystem.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': 'NorthHallUserAcc',
+        'HOST': 'mongodb+srv://yousufmazumder12:yousufmazumder12@northhalluseracc.2uudkr4.mongodb.net/?appName=NorthHallUserAcc'
     }
 }
 
