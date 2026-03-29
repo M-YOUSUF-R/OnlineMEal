@@ -4,9 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Meal Manager - Toggle Your Meals</title>
+    <title>Meal Manager - North Hall</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- custom css links -->
     <link rel="stylesheet" href="{% static 'meal/styles/meal.css' %}">
 </head>
 <body>
@@ -18,25 +17,73 @@
                 </div>
                 <h1>Meal Manager</h1>
             </div>
-            <p class="subtitle">Manage your meal for today. Turn your meal ON or OFF as needed.</p>
-            <div class="header">
+            <p class="subtitle">Welcome, {{ user_full_name }}! Manage your meal status.</p>
+            <div class="header-nav">
+                <a href="{% url 'meal_history' %}" class="back-link">
+                    <i class="fas fa-history"></i> History
+                </a>
                 <a href="{% url 'home' %}" class="back-link">
-                    <i class="fas fa-arrow-left"></i> Back to Home
+                    <i class="fas fa-arrow-left"></i> Home
+                </a>
+                <a href="{% url 'logout' %}" class="back-link">
+                    <i class="fas fa-sign-out-alt"></i> Logout
                 </a>
             </div>
         </header>
         <div class="main-content">
             <div class="meals-section">
-                <h2 class="section-title">Today's Meal</h2>
+                <h2 class="section-title">Meal Update</h2>
                 
-                <!-- Removed date navigation buttons, showing only today's date -->
-                <div class="date-navigation" style="justify-content: center;">
-                    <div class="current-date" id="current-date">Monday, June 17, 2024</div>
+                <div class="date-navigation">
+                    <a href="?date={{ prev_date }}" class="nav-btn" id="prev-day"><i class="fas fa-chevron-left"></i></a>
+                    <div class="current-date" id="current-date">{{ current_date|date:"l, F j, Y" }}</div>
+                    <a href="?date={{ next_date }}" class="nav-btn" id="next-day"><i class="fas fa-chevron-right"></i></a>
                 </div>
                 
-                <!-- meal container -->
                 <div class="meals-container" id="meals-container">
-                    <!-- Meal cards will be generated here -->
+                    <!-- User Meal Card -->
+                    <div class="meal-card {% if meal.user_meal_status %}active{% endif %}" data-type="user">
+                        <div class="meal-header">
+                            <div>
+                                <h3 class="meal-type">
+                                    <i class="fas fa-user meal-icon"></i>
+                                    My Meal
+                                </h3>
+                            </div>
+                            <span class="meal-status {% if meal.user_meal_status %}status-on{% else %}status-off{% endif %}">
+                                {% if meal.user_meal_status %}ON{% else %}OFF{% endif %}
+                            </span>
+                        </div>
+                        <div class="toggle-container">
+                            <span class="toggle-label">Turn meal {% if meal.user_meal_status %}OFF{% else %}ON{% endif %}</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="meal-toggle" id="user-meal-toggle" {% if meal.user_meal_status %}checked{% endif %}>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Guest Meal Card -->
+                    <div class="meal-card {% if meal.guest_meal_status %}active{% endif %}" data-type="guest">
+                        <div class="meal-header">
+                            <div>
+                                <h3 class="meal-type">
+                                    <i class="fas fa-users meal-icon"></i>
+                                    Guest Meal
+                                </h3>
+                            </div>
+                            <span class="meal-status {% if meal.guest_meal_status %}status-on{% else %}status-off{% endif %}">
+                                {% if meal.guest_meal_status %}ON{% else %}OFF{% endif %}
+                            </span>
+                        </div>
+                        <div class="toggle-container">
+                            <span class="toggle-label">Turn guest meal {% if meal.guest_meal_status %}OFF{% else %}ON{% endif %}</span>
+                            <label class="toggle-switch">
+                                <input type="checkbox" class="meal-toggle" id="guest-meal-toggle" {% if meal.guest_meal_status %}checked{% endif %}>
+                                <span class="toggle-slider"></span>
+                            </label>
+                        </div>
+                    </div>
                 </div>
                 
                 <button class="save-btn" id="save-btn">
@@ -50,10 +97,84 @@
         </div>
         
         <footer>
-            <p>Meal Manager &copy; 2024 | Toggle your meal participation anytime</p>
+            <p>Meal Manager &copy; 2024 | North Hall, FEC</p>
         </footer>
     </div>
 
-  <script defer src="{% static 'meal/js/meal.js' %}"></script>
+    <script>
+        const saveBtn = document.getElementById('save-btn');
+        const notification = document.getElementById('notification');
+        const userToggle = document.getElementById('user-meal-toggle');
+        const guestToggle = document.getElementById('guest-meal-toggle');
+        const currentDate = "{{ current_date|date:'Y-m-d' }}";
+
+        // Handle visual toggle changes
+        document.querySelectorAll('.meal-toggle').forEach(toggle => {
+            toggle.addEventListener('change', function() {
+                const card = this.closest('.meal-card');
+                const statusSpan = card.querySelector('.meal-status');
+                const labelSpan = card.querySelector('.toggle-label');
+                const type = card.dataset.type;
+
+                if (this.checked) {
+                    card.classList.add('active');
+                    statusSpan.textContent = 'ON';
+                    statusSpan.className = 'meal-status status-on';
+                    labelSpan.textContent = `Turn ${type === 'guest' ? 'guest ' : ''}meal OFF`;
+                } else {
+                    card.classList.remove('active');
+                    statusSpan.textContent = 'OFF';
+                    statusSpan.className = 'meal-status status-off';
+                    labelSpan.textContent = `Turn ${type === 'guest' ? 'guest ' : ''}meal ON`;
+                }
+            });
+        });
+
+        saveBtn.addEventListener('click', async () => {
+            // UI Feedback: Start Loading
+            const originalBtnContent = saveBtn.innerHTML;
+            saveBtn.disabled = true;
+            saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            saveBtn.style.opacity = '0.7';
+
+            const formData = new FormData();
+            formData.append('date', currentDate);
+            formData.append('user_meal_status', userToggle.checked);
+            formData.append('guest_meal_status', guestToggle.checked);
+            formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+            try {
+                const response = await fetch("{% url 'update_meal' %}", {
+                    method: 'POST',
+                    body: formData
+                });
+                const data = await response.json();
+                
+                // Small delay for better UX feel
+                setTimeout(() => {
+                    if (data.status === 'success') {
+                        // Success Feedback
+                        notification.innerHTML = '<i class="fas fa-check-circle"></i> Meal preference updated successfully!';
+                        notification.classList.add('show');
+                        setTimeout(() => notification.classList.remove('show'), 3000);
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                    
+                    // Reset Button
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalBtnContent;
+                    saveBtn.style.opacity = '1';
+                }, 600);
+
+            } catch (error) {
+                console.error('Error saving meal:', error);
+                alert('Failed to save meal preference.');
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalBtnContent;
+                saveBtn.style.opacity = '1';
+            }
+        });
+    </script>
 </body>
 </html>

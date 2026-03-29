@@ -4,4 +4,5 @@ Django==5.2.10
 djangorestframework==3.16.1
 dnspython==2.8.0
 pymongo==4.16.0
+python-dotenv==1.2.2
 sqlparse==0.5.5

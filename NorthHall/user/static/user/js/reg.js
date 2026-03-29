@@ -79,9 +79,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             
             // Form submission
-            form.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
+            form.addEventListener('submit', function(e) {
                 // Validate all fields
                 const isBorderValid = validateField(borderNoInput, 'borderError', validateNotEmpty);
                 const isRegValid = validateField(regNoInput, 'regError', validateNotEmpty);
@@ -94,70 +92,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     confirmPasswordInput.classList.add('error');
                     confirmPasswordInput.classList.remove('success');
                     document.getElementById('confirmError').style.display = 'block';
-                } else {
-                    confirmPasswordInput.classList.remove('error');
-                    confirmPasswordInput.classList.add('success');
-                    document.getElementById('confirmError').style.display = 'none';
                 }
                 
-                // Validate terms
-                const termsError = document.getElementById('termsError');
                 if (!termsCheckbox.checked) {
-                    termsError.style.display = 'block';
-                    termsCheckbox.parentElement.classList.add('shake');
-                    setTimeout(() => {
-                        termsCheckbox.parentElement.classList.remove('shake');
-                    }, 500);
-                } else {
-                    termsError.style.display = 'none';
+                    document.getElementById('termsError').style.display = 'block';
                 }
-                
-                // If all validations pass
-                if (isBorderValid && isRegValid && isNameValid && isRoomValid && 
-                    isPasswordValid && passwordsMatch && termsCheckbox.checked) {
-                    
-                    // Disable submit button and show loading
-                    submitBtn.disabled = true;
-                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
-                    
-                    // Prepare form data
-                    const formData = {
-                        border_no: borderNoInput.value.trim(),
-                        reg_no: regNoInput.value.trim(),
-                        password: passwordInput.value,
-                        full_name: fullNameInput.value.trim(),
-                        room_no: roomNoInput.value.trim(),
-                        phone: document.getElementById('phone').value.trim() || ''
-                    };
-                    
-                    // Simulate API call (replace with actual API call)
-                    setTimeout(() => {
-                        // Show success notification
-                        notification.innerHTML = '<i class="fas fa-check-circle"></i> Account created successfully!';
-                        notification.className = 'notification';
-                        notification.style.display = 'block';
-                        
-                        // Reset button
-                        submitBtn.disabled = false;
-                        submitBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
-                        
-                        // Hide notification after 3 seconds and redirect
-                        setTimeout(() => {
-                            notification.style.display = 'none';
-                            // Redirect to login page after successful registration
-                            window.location.href = 'login.html?registered=true';
-                        }, 3000);
-                        
-                        // In a real application, you would send data to your backend API
-                        console.log('Registration data:', formData);
-                        
-                    }, 1500); // Simulate network delay
-                } else {
-                    // Shake form to indicate errors
+
+                // If any validation fails, prevent submission
+                if (!(isBorderValid && isRegValid && isNameValid && isRoomValid && 
+                    isPasswordValid && passwordsMatch && termsCheckbox.checked)) {
+                    e.preventDefault();
                     form.classList.add('shake');
                     setTimeout(() => {
                         form.classList.remove('shake');
                     }, 500);
+                } else {
+                    // Success, let the form submit naturally to Django
+                    submitBtn.disabled = true;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
                 }
             });
             

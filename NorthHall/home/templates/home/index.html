@@ -79,11 +79,12 @@
         
         <footer>
             <div class="footer-links">
-                <a href="#">About System</a>
+                <a href="{% url 'admin_dashboard' %}">Admin Dashboard</a>
                 <a href="#">Contact Hall Office</a>
                 <a href="#">Privacy Policy</a>
             </div>
             <p>&copy; 2024 North Hall, Fardpur Engineering College. All rights reserved.</p>
+            <p>Database: <strong>{{ db_type }}</strong> | Status: <strong>{{ db_status }}</strong></p>
             <p>Meal Management System v2.0</p>
         </footer>
     </div>
